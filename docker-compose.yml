@@ -74,8 +74,9 @@ services:
       - MYSQL_PASSWORD=mysql
     volumes:
       - my-db:/var/lib/mysql
-      - ./mysql/init.sql:/home/init.sql
-      # - ./my.cnf/my.cnf:/etc/my.cnf
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql/init-data.sql:/init-data.sql
+      - ./mysql/my.cnf:/home/my.cnf
       - ./mysql/titanic.csv:/var/lib/mysql-files/titanic.csv
 
 

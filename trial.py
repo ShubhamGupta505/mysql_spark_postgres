@@ -7,7 +7,7 @@ from pyspark.sql.types import *
 
 
 #Connection details
-MYSQL_SERVERNAME = "172.18.0.4"
+MYSQL_SERVERNAME = "172.33.0.1"
 MYSQL_PORTNUMBER = 3306
 MYSQL_DBNAME = "mydb"
 MYSQL_USRRNAME = "myuser"
@@ -63,7 +63,7 @@ if __name__ == "__main__":
     # df_emps = data_from_psql(spark)
     df_emps = spark.read\
         .format("jdbc")\
-        .option("url", "jdbc:mysql://172.18.0.1:3306/mydb")\
+        .option("url", "jdbc:mysql://192.168.64.1:3306/mydb")\
         .option("dbtable", 'titanic')\
         .option("user", "myuser")\
         .option("password", "mypass")\
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     df = df_emps.toPandas() 
     df = df.drop('SexCode', axis=1)
     df = df.rename(columns = {'PClass': 'Passenger Class', 'Sex': 'Gender'})
-    df = df.replace([0,1,'1st','2nd','3rd'],['Yes','No','First','Second','Third'])
+    # df = df.replace([0,1,'1st','2nd','3rd'],['Yes','No','First','Second','Third'])
 
     df_schema = StructType([StructField("name", StringType(), True) \
         ,StructField("PClass", StringType(), True) \
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         sql_query.write \
             .mode("overwrite") \
             .format("jdbc") \
-            .option("url", "jdbc:postgresql://172.18.0.1:5432/mydb") \
+            .option("url", "jdbc:postgresql://192.168.64.1:5432/mydb") \
             .option("dbtable", 'employee')\
             .option("user", 'myuser')\
             .option("password", 'mypass')\
