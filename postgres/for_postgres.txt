@@ -1,0 +1,33 @@
+psql -U myuser -h localhost -p 5432 -d mydb
+
+\c mydb
+create table employee(id int);
+GRANT ALL PRIVILEGES ON TABLE employee TO myuser
+GRANT ALL ON SCHEMA public TO myuser;
+Grant USAGE on schema public To myuser;
+grant all privileges on database mydb to myuser;
+ALTER DATABASE mydb OWNER TO myuser;
+
+GRANT ALL PRIVILEGES ON TABLE t1 TO myuser
+
+psql -U postgres -W postgres
+create table t1(id int);
+insert into t1 values(1);
+
+
+
+create user myuser with encrypted password 'mypass';
+
+
+touch demo.py
+pip3 install py4j
+pip3 install pandas
+python3 demo.py
+python3 trial.py
+
+
+
+
+
+
+type(df) = pyspark.sql.dataframe.DataFrame

@@ -1,0 +1,85 @@
+version: '2'
+
+services:
+  spark:
+    container_name: spark_master
+    image: docker.io/bitnami/spark:3.3
+    environment:
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./mysql/mysql-connector-j-8.0.31.jar:/opt/bitnami/spark/jars/mysql-connector-j-8.0.31.jar
+      - ./postgres/postgresql-42.5.1.jar:/opt/bitnami/spark/jars/postgresql-42.5.1.jar
+      - ./mysql/mysql-connector-j-8.0.31.jar:/opt/bitnami/spark/mysql-connector-j-8.0.31.jar
+      - ./postgres/postgresql-42.5.1.jar:/opt/bitnami/spark/postgresql-42.5.1.jar
+      - ./trial.py:/opt/bitnami/spark/trial.py
+  spark-worker:
+    container_name: spark_worker
+    image: docker.io/bitnami/spark:3.3
+    environment:
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pg-db:/var/lib/postgresql/data
+    hostname:
+      postgres
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    hostname:
+      postgres
+      
+
+  mysql:
+    # *-----------------------------*
+    # To connect to the DB: 
+    #   docker-compose exec mysql bash -c 'mysql -u root -p$MYSQL_ROOT_PASSWORD'
+    # *-----------------------------*
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_USER=mysql
+      - MYSQL_PASSWORD=mysql
+    volumes:
+      - my-db:/var/lib/mysql
+      - ./mysql/init.sql:/home/init.sql
+      # - ./my.cnf/my.cnf:/etc/my.cnf
+      - ./mysql/titanic.csv:/var/lib/mysql-files/titanic.csv
+
+
+volumes:
+  pg-db:
+  my-db:
+  pgadmin-data:

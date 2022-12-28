@@ -1,0 +1,28 @@
+musql -u root -p mysql
+
+USE mysql;
+CREATE USER 'myuser'@'localhost' IDENTIFIED BY 'mypass';
+GRANT ALL ON *.* TO 'myuser'@'localhost';
+FLUSH PRIVILEGES;
+
+create database mydb;
+use mydb;
+
+create table t1(id int);
+insert into t1 values(1);
+
+
+pip3 install py4j
+pip3 install pandas
+
+FIND IP for conncetion from mysql -> inspect AND search ( Gateway )
+
+
+docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mysql
+
+
+
+Add this line after [client] in my.cnf file
+user=root
+password=mysql
+host=127.0.0.1
