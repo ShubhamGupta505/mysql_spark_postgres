@@ -7,7 +7,7 @@ from pyspark.sql.types import *
 
 
 #Connection details
-MYSQL_SERVERNAME = "172.33.0.1"
+MYSQL_SERVERNAME = "192.168.144.1"
 MYSQL_PORTNUMBER = 3306
 MYSQL_DBNAME = "mydb"
 MYSQL_USRRNAME = "myuser"
@@ -21,7 +21,7 @@ TABLE_EMPLOYEE = "employee"
 # def data_from_psql(_spark):
 #     return _spark.read\
 #         .format("jdbc")\
-#         .option("url", "jdbc:postgresql://172.19.0.1:5432/mydb")\
+#         .option("url", "jdbc:postgresql://192.168.144.1:5432/mydb")\
 #         .option("dbtable", 't1')\
 #         .option("user", "myuser")\
 #         .option("password", "mypass")\
@@ -42,7 +42,7 @@ TABLE_EMPLOYEE = "employee"
     
 #     _df.select("id").write\
 #         .format("jdbc")\
-#         .option("url", "jdbc:postgresql://172.19.0.1:5432/mydb")\
+#         .option("url", "jdbc:postgresql://192.168.144.1:5432/mydb")\
 #         .option("dbtable", 'employee')\
 #         .option("user", 'myuser')\
 #         .option("password", 'PASSWORD')\
@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     # df_emps.select("id").write\
     #     .format("jdbc")\
-    #     .option("url", "jdbc:mysql://172.19.0.1:3306/mydb")\
+    #     .option("url", "jdbc:mysql://192.168.144.1:3306/mydb")\
     #     .option("dbtable", 'employee')\
     #     .option("user", 'myuser')\
     #     .option("password", 'PASSWORD')\
